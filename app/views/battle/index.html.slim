@@ -1,0 +1,43 @@
+.material_svgs
+  - (1..12).each do |i|
+    div id="ink-#{i}"
+      == File.read(Rails.root.join("app/assets/images/#{i}.svg"))
+  div id="color"
+    == File.read(Rails.root.join("app/assets/images/my_color.svg"))
+
+.avatars
+  - (1..4).each do |i|
+    div id="avatar-#{i}" class="avatar"
+      = image_tag "avatar#{i}.png"
+
+.profile
+  dl
+    dt アナタノ イロ
+    dd.color
+      == File.read(Rails.root.join("app/assets/images/my_color.svg"))
+    dt ID:
+    dd.uuid
+
+.users
+  |テキ ミカタ タチ
+  dl
+
+.timer-unit
+  |ノコリ ジカン
+  .timer
+
+.result
+  |ケッカ ハッピョウ
+  .win-color
+  |ノ カチ!!!!
+
+.start
+  .step1
+    |ゲーム
+  .step2
+    |スタート!!
+
+.waiting
+  |ユーザガ イッパイ!!
+  br
+  |チョット マッテテネ
