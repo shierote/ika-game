@@ -14,17 +14,25 @@ class Battle
   def result
     img_depth = @img.depth
 
-    hist = @img.color_histogram.inject({}) do |hash, key_val|
-      # require'pry';binding.pry
-      color = key_val[0].to_color(Magick::AllCompliance, matte: false, depth: 1, hex: true)
-      if "#000000" != color
-        hash[color] ||= 0
-        hash[color] += key_val[1]
+    begin
+      hist = @img.color_histogram.inject({}) do |hash, key_val|
+        color = key_val[0].to_color(Magick::AllCompliance, false, img_depth, true)
+        if "#000000" != color
+          hash[color] ||= 0
+          hash[color] += key_val[1]
+        end
+        hash
       end
-      hash
+    rescue
+      hist = {}
+      hist["#000001"] = @img.color_histogram.first[1]
+      puts "======================================================="
+      puts "error"
+      puts "======================================================="
     end
 
     puts "======================================================="
+    puts "hist"
     puts hist
     puts "======================================================="
 

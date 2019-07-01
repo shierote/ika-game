@@ -1,16 +1,10 @@
 # Be sure to restart your server when you modify this file. Action Cable runs in a loop that does not support auto reloading.
 class BattleChannel < ApplicationCable::Channel
   def subscribed
-    puts "======================================"
-    puts "subscribed"
-    puts "======================================"
     stream_from "player_#{uuid}"
   end
 
   def unsubscribed
-    puts "======================================"
-    puts "unsubscribed"
-    puts "======================================"
     user = User.new(uuid)
     user.leave
 
@@ -19,9 +13,6 @@ class BattleChannel < ApplicationCable::Channel
   end
 
   def join(data)
-    puts "======================================"
-    puts "join"
-    puts "======================================"
     user = User.new(uuid)
     return waiting unless user.can_join?
 
@@ -36,23 +27,14 @@ class BattleChannel < ApplicationCable::Channel
   end
 
   def start
-    puts "======================================"
-    puts "start"
-    puts "======================================"
     ActionCable.server.broadcast "battle_channel", { action: "start" }
   end
 
   def attack(data)
-    puts "======================================"
-    puts "attack"
-    puts "======================================"
     ActionCable.server.broadcast "battle_channel", data.merge({ scale: [0.4, 0.45, 0.5, 0.55, 0.6].sample })
   end
 
   def waiting
-    puts "======================================"
-    puts "waiting"
-    puts "======================================"
     User.new(uuid).waiting
     ActionCable.server.broadcast "player_#{uuid}", { action: "waiting" }
   end

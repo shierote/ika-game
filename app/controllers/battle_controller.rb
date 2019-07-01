@@ -6,6 +6,7 @@ class BattleController < ApplicationController
   end
 
   def result
+    # 取得したcanvasDataでresult.pngを上書き
     File.open(Rails.root.join("tmp/result.png"), "wb") do |f|
       f.write(Base64.decode64(params[:image]))
     end
