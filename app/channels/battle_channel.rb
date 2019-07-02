@@ -22,6 +22,8 @@ class BattleChannel < ApplicationCable::Channel
 
     stream_from "battle_channel"
 
+    puts "join is called "
+
     start
     # start if User.all.size > (Battle.max_user - 1)
   end

@@ -19,9 +19,12 @@ $ ->
 # Canvasを画像に変換
 convertCanvas = ()->
   canvas = $('<canvas>')
+  console.log "canvas"
+  console.log canvas
   canvas.attr 'width', $(window).width()
   canvas.attr 'height', $(window).height()
   ctx = canvas[0].getContext('2d')
+  console.log ctx
 
   # ここら辺でバグの可能性もある
   $('.attack-log').each (index, svg_div)->
@@ -33,11 +36,15 @@ convertCanvas = ()->
     svgData = new XMLSerializer().serializeToString($svg[0]).replace('<path','<path style="fill:' + $svg.find('path').css('fill') + '" ')
     image = new Image
     image.src = "data:image/svg+xml;charset=utf-8;base64," + btoa(unescape(encodeURIComponent(svgData)))
+    console.log image.src
+    console.log image
+    image.onload = ->
+      ctx.drawImage(image, $svg.offset().left, $svg.offset().top, scale * $svg.width(), scale * $svg.height())
     console.log '%c+', 'font-size: 10px; height: 50px; width: 50px ; object-fit: cover ;padding: 100px; color: transparent; background-image: url(' + image.src + ');'
-    ctx.drawImage(image, $svg.offset().left, $svg.offset().top, scale * $svg.width(), scale * $svg.height())
     console.log "canvas"
-    console.log canvas
+    console.log '%c+', 'font-size: 10px; height: 50px; width: 50px ; object-fit: cover ;padding: 100px; color: transparent; background-image: url(' + canvas[0].toDataURL() + ');'
 
+  console.log '%c+', 'font-size: 10px; height: 50px; width: 50px ; object-fit: cover ;padding: 100px; color: transparent; background-image: url(' + canvas[0].toDataURL() + ');'
   canvas
 
 # Canvasの画像データをサーバ側に送りサーバ側で分解、判定
@@ -57,6 +64,7 @@ postCanvas = (canvas)->
     success: (data)->
       $('.win-color').css('background', data[0][0])
       $('.result').fadeIn()
+      console.log data[0][0]
       return
     error: (jqXHR, textStatus, errorThrown) ->
       return

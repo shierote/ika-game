@@ -54,7 +54,7 @@ App.battle = App.cable.subscriptions.create "BattleChannel",
 
 # join
 actions['join'] = (data)->
-  console.log "join is called"
+  console.log "join is called:coffee"
   $('.waiting').hide()
   my_color = data.color
   my_uuid = data.uuid
@@ -97,12 +97,11 @@ actions['users'] = (data)->
 actions['start'] = (data)->
   $('.attack-log').remove() # 初期化
   start_animation() # アニメーションをスタートさせる
-  $('.timer').text 10 # カウントダウンタイマーで10を表示
+  $('.timer').text 5 # カウントダウンタイマーで10を表示
   clearTimeout intervalID if intervalID
   intervalID = setInterval count_down, 1000 # 1秒ごとにcount_downを実行
   clearTimeout timeoutID if timeoutID #timeoutIDをクリア
-  timeoutID = setTimeout game_finish, 10000 # 10秒後にgame_finishを実行
-  console.log "game is over"
+  timeoutID = setTimeout game_finish, 5000 # 10秒後にgame_finishを実行
 
 # waitingを表示
 actions['waiting'] = (data)->
