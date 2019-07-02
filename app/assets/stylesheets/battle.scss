@@ -3,6 +3,19 @@ html{color:#000;background:#FFF}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre
 html,body {
   height: 100%;
   font-family: 'ikamodoki', 'ikamodoki-eiji';
+  color: white;
+}
+body {
+  background-size: cover;
+}
+body:before {
+  background-color: rgba(0,0,0,0.3);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  content: ' ';
 }
 @font-face {
   font-family: 'ikamodoki';
@@ -191,4 +204,11 @@ html,body {
   padding: 15px 50px;
   text-decoration: none;
 }
-
+.ika-img {
+  height: 15vh;
+  position: relative;
+  top: -3vh;
+}
+.ika-timer {
+  text-align: center;
+}

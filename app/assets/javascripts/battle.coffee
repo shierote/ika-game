@@ -10,10 +10,20 @@ $ ->
     if playable
       App.battle.attack(position)
 
-# ゲーム終了時に呼び出された
 @game_finish = ()->
-  playable = false
   postCanvas()
+
+@game_restart = ()->
+  playable = true
+  console.log playable
+
+@make_unplayable = ()->
+  console.log "make_unplayable"
+  playable = false
+
+@make_playable = ()->
+  console.log "make_playable"
+  playable = true
 
 # Canvasを画像に変換
 postCanvas = ()->
@@ -45,23 +55,23 @@ postCanvas = ()->
     console.log canvas[0].toDataURL()
 
   ).done ->
-
     data = {}
-
     canvasData = canvas[0].toDataURL()
     canvasData = canvasData.replace(/^data:image\/png;base64,/, '')
     data.image = canvasData
     console.log "data"
     console.log data
-    $.ajax
-      url: '/result'
-      type: 'POST'
-      success: (data)->
-        $('.win-color').css('background', data[0][0])
-        $('.result').fadeIn()
-        console.log data[0][0]
-        return
-      error: (jqXHR, textStatus, errorThrown) ->
-        return
-      data: data
-      dataType: 'json'
+    setTimeout (->
+      $.ajax
+        url: '/result'
+        type: 'POST'
+        success: (data)->
+          $('.win-color').css('background', data[0][0])
+          $('.result').fadeIn()
+          console.log data[0][0]
+          return
+        error: (jqXHR, textStatus, errorThrown) ->
+          return
+        data: data
+        dataType: 'json'
+    ), 1000

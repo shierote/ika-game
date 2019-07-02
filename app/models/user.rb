@@ -61,7 +61,7 @@ class User
   private
 
   def color
-    colors = %w(gray orange blue pink green mint purple)
+    colors = %w(orange blue pink green mint purple)
     colors.sample
   end
 

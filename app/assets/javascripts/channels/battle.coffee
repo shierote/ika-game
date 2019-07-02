@@ -10,7 +10,6 @@ count_down = ()->
   $('.timer').text sec
   if 0 == sec
     clearInterval intervalID
-    $('.timer-unit').hide()
 
 # スタート前のカウントダウンタイマー
 start_count_down = ()->
@@ -95,13 +94,15 @@ actions['users'] = (data)->
 
 # ゲームの開始, コントロール
 actions['start'] = (data)->
+  $('.result').hide()
   $('.attack-log').remove() # 初期化
-  start_animation() # アニメーションをスタートさせる
-  $('.timer').text 5 # カウントダウンタイマーで10を表示
+  start_animation()
+  clearTimeout timeoutID if timeoutID #timeoutIDをクリア
+  $('.timer').text 15 # カウントダウンタイマーで10を表示
   clearTimeout intervalID if intervalID
   intervalID = setInterval count_down, 1000 # 1秒ごとにcount_downを実行
   clearTimeout timeoutID if timeoutID #timeoutIDをクリア
-  timeoutID = setTimeout game_finish, 5000 # 10秒後にgame_finishを実行
+  timeoutID = setTimeout game_finish, 15000
 
 # waitingを表示
 actions['waiting'] = (data)->

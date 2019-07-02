@@ -32,10 +32,12 @@ class Battle
       puts "error"
     end
 
-    puts "hist"
-    puts hist
+    sort_hist = hist.sort{|a, b| b[1] <=> a[1]}
+
+    puts "sort_hist"
+    p sort_hist
     puts "======================================================="
 
-    hist.sort{|a, b| b[1] <=> a[1]}
+    sort_hist
   end
 end

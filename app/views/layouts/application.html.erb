@@ -12,4 +12,18 @@
   <body>
     <%= yield %>
   </body>
+  <script>
+    $(window).on('load',function(){
+      num = Math.ceil(6 * Math.random()) - 1;
+      console.log(num);
+      urls = []
+      urls.push('stage1.jpg')
+      urls.push('stage2.jpeg')
+      urls.push('stage3.png')
+      urls.push('stage4.png')
+      urls.push('stage5.jpg')
+      urls.push('stage6.jpg')
+      $("body").css('background-image', 'url(' + urls[num]+ ')');
+    });
+  </script>
 </html>

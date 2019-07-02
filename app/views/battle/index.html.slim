@@ -22,16 +22,19 @@
   |テキ
   dl
 
+.ika-timer
+  = image_tag '/ika.png', class: 'ika-img'
+
 .timer-unit
   |ノコリ ジカン
   .timer
 
 .result
-  |ケッカ ハッピョウ
+  |ケッカハ...
   .win-color
   |ノ カチ!!!!
   .retry
-    a.retry-btn onclick="" href="/" リスタート
+    a.retry-btn onclick="window.location.reload();" リスタート
 
 .start
   .step1
