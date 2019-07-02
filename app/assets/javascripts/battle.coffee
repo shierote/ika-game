@@ -13,8 +13,10 @@ $ ->
 # ゲーム終了時に呼び出された
 @game_finish = ()->
   playable = false
-  canvas = convertCanvas()
-  postCanvas(canvas)
+  $.when(
+    canvas = convertCanvas()
+  ).done ->
+    postCanvas(canvas)
 
 # Canvasを画像に変換
 convertCanvas = ()->
@@ -24,40 +26,38 @@ convertCanvas = ()->
   canvas.attr 'width', $(window).width()
   canvas.attr 'height', $(window).height()
   ctx = canvas[0].getContext('2d')
+  console.log "ctx"
   console.log ctx
 
-  # ここら辺でバグの可能性もある
   $('.attack-log').each (index, svg_div)->
-    console.log "インク"
-    console.log index
-    scale = $(svg_div).css('scale')
-    $svg = $(svg_div).find('svg')
-    $svg.find('path').css('fill')
-    svgData = new XMLSerializer().serializeToString($svg[0]).replace('<path','<path style="fill:' + $svg.find('path').css('fill') + '" ')
     image = new Image
-    image.src = "data:image/svg+xml;charset=utf-8;base64," + btoa(unescape(encodeURIComponent(svgData)))
-    console.log image.src
-    console.log image
+    $svg = $(svg_div).find('svg')
+    svgData = new XMLSerializer().serializeToString($svg[0]).replace('<path','<path style="fill:' + $svg.find('path').css('fill') + '" ')
     image.onload = ->
+      console.log "インク"
+      console.log index
+      scale = $(svg_div).css('scale')
+      $svg.find('path').css('fill')
       ctx.drawImage(image, $svg.offset().left, $svg.offset().top, scale * $svg.width(), scale * $svg.height())
-    console.log '%c+', 'font-size: 10px; height: 50px; width: 50px ; object-fit: cover ;padding: 100px; color: transparent; background-image: url(' + image.src + ');'
-    console.log "canvas"
-    console.log '%c+', 'font-size: 10px; height: 50px; width: 50px ; object-fit: cover ;padding: 100px; color: transparent; background-image: url(' + canvas[0].toDataURL() + ');'
+      console.log '%c+', 'font-size: 10px; height: 50px; width: 50px ; object-fit: cover ;padding: 100px; color: transparent; background-image: url(' + canvas[0].toDataURL() + ');'
+      console.log canvas[0].toDataURL()
+    image.src = "data:image/svg+xml;charset=utf-8;base64," + btoa(unescape(encodeURIComponent(svgData)))
 
   console.log '%c+', 'font-size: 10px; height: 50px; width: 50px ; object-fit: cover ;padding: 100px; color: transparent; background-image: url(' + canvas[0].toDataURL() + ');'
+  console.log canvas[0].toDataURL()
+
   canvas
 
 # Canvasの画像データをサーバ側に送りサーバ側で分解、判定
 postCanvas = (canvas)->
   data = {}
 
-  # ここら辺でバグってる気がする
-  console.log "canvas"
   canvasData = canvas[0].toDataURL()
-  console.log canvasData
-  console.log '%c+', 'font-size: 10px; height: 50px; width: 50px ; object-fit: cover ;padding: 100px; color: transparent; background-image: url(' + canvasData + ');'
   canvasData = canvasData.replace(/^data:image\/png;base64,/, '')
   data.image = canvasData
+  console.log canvasData
+  console.log "data"
+  console.log data
   $.ajax
     url: '/result'
     type: 'POST'
