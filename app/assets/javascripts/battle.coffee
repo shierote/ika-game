@@ -65,6 +65,7 @@ postCanvas = ()->
       $.ajax
         url: '/result'
         type: 'POST'
+        async: false
         success: (data)->
           $('.win-color').css('background', data[0][0])
           $('.result').fadeIn()
